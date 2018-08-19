@@ -7,9 +7,11 @@
         <groupId>be.vdab.demo</groupId>
         <artifactId>shop-os</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>..</relativePath>
     </parent>
 
     <artifactId>stockmanager-os</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>stockmanager</name>
