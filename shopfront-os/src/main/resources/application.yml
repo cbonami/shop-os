@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: shopfront
+server:
+  port: 8010
+management:
+  port: 8011
+productCatalogueUri: http://productcatalogue:8020
+stockManagerUri: http://stockmanager:8030
+---
+spring:
+  profiles: dev
+productCatalogueUri: http://productcatalogue-dev:8020
+stockManagerUri: http://stockmanager-dev:8030
+---
+spring:
+  profiles: prd
+productCatalogueUri: http://productcatalogue-dev:8020
+stockManagerUri: http://stockmanager-dev:8030
