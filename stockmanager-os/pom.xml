@@ -31,13 +31,13 @@
     <dependencyManagement>
         <dependencies>
             <!-- import fabric8 platform bom first -->
-            <dependency>
-                <groupId>io.fabric8</groupId>
-                <artifactId>fabric8-project-bom-with-platform-deps</artifactId>
-                <version>${fabric8.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>io.fabric8</groupId>-->
+                <!--<artifactId>fabric8-project-bom-with-platform-deps</artifactId>-->
+                <!--<version>${fabric8.version}</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>import</scope>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -104,16 +104,16 @@
             <version>${cucumber.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-arquillian</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.junit</groupId>-->
+            <!--<artifactId>arquillian-junit-container</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>io.fabric8</groupId>-->
+            <!--<artifactId>fabric8-arquillian</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
 
