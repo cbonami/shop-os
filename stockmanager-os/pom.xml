@@ -13,12 +13,17 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.0.4.RELEASE</spring-boot.version>
         <java.version>1.8</java.version>
-        <fabric8.version>3.0.12</fabric8.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <spring-boot.bom.version>1.5.8.Final-redhat-1</spring-boot.bom.version>
+        <springboot.version>1.5.8.RELEASE</springboot.version>
+        <springboot.metrics.version>0.5.1.RELEASE</springboot.metrics.version>
+        <prometheus.client.version>0.1.0</prometheus.client.version>
+        <springfox-version>2.8.0</springfox-version>
+        <swagger-core-version>1.5.10</swagger-core-version>
 
         <!-- maven plugins -->
-        <!--<fabric8-maven-plugin.version>3.1.32</fabric8-maven-plugin.version>-->
         <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
@@ -30,18 +35,10 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- import fabric8 platform bom first -->
-            <!--<dependency>-->
-                <!--<groupId>io.fabric8</groupId>-->
-                <!--<artifactId>fabric8-project-bom-with-platform-deps</artifactId>-->
-                <!--<version>${fabric8.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
+                <groupId>me.snowdrop</groupId>
+                <artifactId>spring-boot-bom</artifactId>
+                <version>${spring-boot.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -66,16 +63,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!-- Fixes this issue: https://goo.gl/tGdc5E -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
         </dependency>
-        <!-- fixes https://goo.gl/Cj5piZ -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
-        </dependency>
+        <!--&lt;!&ndash; fixes https://goo.gl/Cj5piZ &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>javax.validation</groupId>-->
+            <!--<artifactId>validation-api</artifactId>-->
+            <!--<version>2.0.1.Final</version>-->
+        <!--</dependency>-->
 
         <!-- Test -->
         <dependency>
@@ -103,17 +103,37 @@
             <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.arquillian.junit</groupId>-->
-            <!--<artifactId>arquillian-junit-container</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>io.fabric8</groupId>-->
-            <!--<artifactId>fabric8-arquillian</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.metrics</groupId>
+            <artifactId>spring-metrics</artifactId>
+            <version>${springboot.metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_common</artifactId>
+            <version>${prometheus.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--SpringFox dependencies -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.swagger/swagger-core -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>${swagger-core-version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -168,4 +188,21 @@
             <!--</plugin>-->
         </plugins>
     </build>
+
+    <!-- needed by RHOAR -->
+    <repositories>
+        <repository>
+            <id>redhat-ga-repository</id>
+            <name>Redhat GA Repository</name>
+            <url>https://maven.repository.redhat.com/ga/all/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>redhat-ga-repository</id>
+            <name>Redhat GA Repository</name>
+            <url>https://maven.repository.redhat.com/ga/all/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
