@@ -1,5 +1,7 @@
 package be.vdab.demo.stockmanager;
 
+import io.prometheus.client.CollectorRegistry;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +21,10 @@ public class ShopfrontApplicationTests {
     @Test
     public void contextLoads() {
     }
+
+    @After
+    public void tearDown() {
+        CollectorRegistry.defaultRegistry.clear();
+    }
+
 }

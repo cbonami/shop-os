@@ -37,26 +37,36 @@ oc login -u admin
 
 * Ansible
 
+> Optional - only needed when you want to set up the whole CD/CI pipeline full-automatically with OpenShift Applier (=RedHat's Ansible templates for OCP)
+
 I tried running the ansible client in Windows subsystem for Linux, but ran into weird problems.
-So I decided to go for a Ubuntu Xenial (16.04) on virtualbox.
+So I decided to go for a Ubuntu Xenial (16.04) on virtualbox:
 
 ```bash
 vagrant init ubuntu/xenial64
 vagrant up
+vagrant ssh
 ```
 
-* Ansible on W10 -- https://www.youtube.com/watch?v=9g0IGoRJtzM
-    * Enable developer extensions
-    * Enable Linux subsystem
-    * Install Ubuntu 18.04 from windows store
+Inside the Ubuntu box:
 
 ```bash
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
-sudo apt-get install ansible   
-sudo apt install python3-pip python-dev libffi-dev libssl-dev
+sudo apt-get install ansible -y
+sudo apt install python3-pip python-dev libffi-dev libssl-dev -y
 sudo pip install requests 
+wget https://github.com/openshift/origin/releases/ download/v3.10.0/openshift-origin-client-tools-v3.10.0-dd10d17-linux-64bit.tar.gz
+tar -xvf openshift-origin-client-tools-v3.10.0-dd10d17-linux-64bit.tar.gz
+cd openshift-origin-client-tools-v3.10.0-dd10d17-linux-64bit
+sudo mv oc /usr/local/bin
+oc 
+cd
+git clone https://github.com/redhat-cop/openshift-applier
+git clone https://github.com/redhat-cop/container-pipelines
+cd container-pipelines/basic-spring-boot
 ```
+
 
 ## Build & Run
 
