@@ -12,6 +12,10 @@
 choco install cmder
 ```
 
+* Install [Vagrant]()
+
+todo
+
 * Install [MiniShift](https://github.com/minishift/minishift)
 
 ```bash
@@ -22,6 +26,36 @@ minishift config set vm-driver virtualbox
 minishift config set cpus 4
 minishift config set memory 16g
 minishift start
+minishift addon apply admin-user
+```
+
+Note: use password 'admin' when logging in as admin:
+
+```bash
+oc login -u admin
+```
+
+* Ansible
+
+I tried running the ansible client in Windows subsystem for Linux, but ran into weird problems.
+So I decided to go for a Ubuntu Xenial (16.04) on virtualbox.
+
+```bash
+vagrant init ubuntu/xenial64
+vagrant up
+```
+
+* Ansible on W10 -- https://www.youtube.com/watch?v=9g0IGoRJtzM
+    * Enable developer extensions
+    * Enable Linux subsystem
+    * Install Ubuntu 18.04 from windows store
+
+```bash
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible   
+sudo apt install python3-pip python-dev libffi-dev libssl-dev
+sudo pip install requests 
 ```
 
 ## Build & Run
@@ -32,13 +66,51 @@ oc new-project shop
 ```
 
 We make use of the [codecenric/springboot-maven3-centos S2I image](https://github.com/codecentric/springboot-maven3-centos) to build a docker image containing the spring boot app.
-We make an app based on the S2I method/image, and hand our source-code to it like this:
+We make an app based on the S2I method/image, and hand our source-code to it, with the [oc new-app](https://docs.openshift.com/container-platform/3.7/dev_guide/application_lifecycle/new_app.html):
 
 ```bash
-oc new-app codecentric/springboot-maven3-centos~https://github.com/cbonami/shop-os.git --context-dir=stockmanager-os
+oc new-app codecentric/springboot-maven3-centos~https://github.com/cbonami/shop-os.git --context-dir=stockmanager-os --name=stockmanager
+```
+
+This will output:
+```
+--> Found Docker image 0274d1a (6 weeks old) from Docker Hub for "codecentric/springboot-maven3-centos"
+
+    Spring Boot Maven 3
+    -------------------
+    Platform for building and running Spring Boot applications
+
+    Tags: builder, java, java8, maven, maven3, springboot
+
+    * An image stream will be created as "springboot-maven3-centos:latest" that will track the source image
+    * A source build using source code from https://github.com/cbonami/shop-os.git will be created
+      * The resulting image will be pushed to image stream "stockmanager:latest"
+      * Every time "springboot-maven3-centos:latest" changes a new build will be triggered
+    * This image will be deployed in deployment config "stockmanager"
+    * Port 8080/tcp will be load balanced by service "stockmanager"
+      * Other containers can access this service through the hostname "stockmanager"
+
+--> Creating resources ...
+    imagestream "springboot-maven3-centos" created
+    imagestream "stockmanager" created
+    buildconfig "stockmanager" created
+    deploymentconfig "stockmanager" created
+    service "stockmanager" created
+--> Success
+    Build scheduled, use 'oc logs -f bc/stockmanager' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose svc/stockmanager'
+    Run 'oc status' to view your app.
+```
+
+Then make a route:
+
+```bash
+oc expose service stockmanager
 ```
 
 ## Links
 
-* https://medium.com/@pablo127/deploy-spring-boot-application-to-openshift-3-next-gen-2b311f55f0c5
-* http://www.mastertheboss.com/jboss-frameworks/spring/deploy-your-springboot-applications-on-openshift
+* https://github.com/redhat-cop/container-pipelines/tree/master/basic-spring-boot
+* https://middlewareblog.redhat.com/2017/05/05/red-hat-openshift-application-runtimes-and-spring-boot-details-you-want-to-know/
+* [RHOAR](https://developers.redhat.com/products/rhoar/overview/)
