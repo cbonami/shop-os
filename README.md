@@ -127,12 +127,19 @@ that defines all the resources required to _build_ our java app.
 The template includes:
 
 * A `BuildConfig` that defines a `JenkinsPipelineStrategy` build, which will be used to define our pipeline.
-* A `BuildConfig` that defines a `Source` build with `Binary` input. This will build our image.
+* A `BuildConfig` that defines a `Source` build with `Binary` input (the jar that will be built). This will build our image.
 
 Deploy the build template in LDV only, as it is there that Jenkins runs.
 
 ```
 $ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build-ldv | oc apply -f-
+```
+
+On Minishift I also had to create the builderimage's imagestream in the _openshift_ namespace:
+
+```
+$ oc login -u system:admin
+$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json
 ```
 
 #### Links
