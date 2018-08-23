@@ -2,6 +2,7 @@ package be.vdab.demo.stockmanager;
 
 import io.prometheus.client.CollectorRegistry;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,12 @@ public class ShopfrontApplicationTests {
 
     @Test
     public void contextLoads() {
+    }
+
+    // fixes https://github.com/prometheus/client_java/issues/279
+    @BeforeClass
+    public static void setup() {
+        CollectorRegistry.defaultRegistry.clear();
     }
 
     // fixes https://github.com/prometheus/client_java/issues/279
