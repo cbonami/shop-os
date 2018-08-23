@@ -72,7 +72,7 @@ cd container-pipelines/basic-spring-boot
 ### 1. Create Lifecycle Stages
 
 ```bash
-$ oc login https://ocp-sbx.vdab.be:8443 --token=...
+$ oc login -u developer
 $ oc create -f stockmanager-os/applier/projects/projects.yml
 ```
 
@@ -80,14 +80,15 @@ _Projects_ are isolated kubernetes _Namespaces_.
 
 ### 2. Stand up Jenkins master in ldv
 
-The OpenShift *default* template gets jenkins up and running.
+The OpenShift *default* template gets jenkins up and running in the 'build' namespace.
 This is the ephemeral setup of jenkins, i.e. no persistent volumes are used.
 
 ```
 $ oc login -u system:admin
 $ oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/jenkins-ephemeral-template.json -n openshift
-$ oc project stockmanager-os-ldv # maybe not needed
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-build
+$ oc process openshift//jenkins-ephemeral | oc apply -f- -n productcatalogue-os-build
+$ oc process openshift//jenkins-ephemeral | oc apply -f- -n shopfront-os-build
 ```
 
 ### 3. Instantiate Pipeline
@@ -110,12 +111,13 @@ The templates will create for each microservice the following:
 * A `RoleBinding` to allow Jenkins to deploy in each namespace.
 
 ```
+$ oc login -u developer
 $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-ldv | oc apply -f-
 ```
 
 #### _Build_ template
 
-A build template is provided at
+A _build template_ is provided at
 
 * [stockmanager-os/applier/templates/build.yml](stockmanager-os/applier/templates/build.yml) 
 * [productcatalogue-os/applier/templates/build.yml](productcatalogue-os/applier/templates/build.yml)
@@ -124,8 +126,8 @@ A build template is provided at
 that defines all the resources required to _build_ our java app. 
 The template includes:
 
-* A _BuildConfig_ that defines a _JenkinsPipelineStrategy_ build, which will be used to define our pipeline.
-* A _BuildConfig_ that defines a _Source_ build with Binary input. This will build our image.
+* A `BuildConfig` that defines a `JenkinsPipelineStrategy` build, which will be used to define our pipeline.
+* A `BuildConfig` that defines a `Source` build with `Binary` input. This will build our image.
 
 Deploy the build template in LDV only, as it is there that Jenkins runs.
 

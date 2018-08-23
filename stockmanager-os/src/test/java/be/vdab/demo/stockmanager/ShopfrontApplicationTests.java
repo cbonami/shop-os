@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ShopfrontApplicationTests {
 
     @Autowired
+    @SuppressWarnings("unused")
     private TestRestTemplate testRestTemplate;
 
     @Test
