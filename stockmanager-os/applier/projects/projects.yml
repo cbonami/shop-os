@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: List
+items:
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: stockmanager-os-build
+    creationTimestam: null
+  displayName: StockManager - Build
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: stockmanager-os-ldv
+    creationTimestam: null
+  displayName: StockManager - LDV
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: stockmanager-os-abt
+    creationTimestam: null
+  displayName: StockManager - ABT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: stockmanager-os-cbt
+    creationTimestam: null
+  displayName: StockManager - CBT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: stockmanager-os-prd
+    creationTimestam: null
+  displayName: StockManager - PRD

@@ -87,8 +87,7 @@ objects:
               command:
               - /bin/bash
               - -c
-              - curl -s 'http://localhost:8080${READINESS_PATH}'
-                |grep -iq '${READINESS_RESPONSE}'
+              - curl -s 'http://localhost:8080${READINESS_PATH}' |grep -iq '${READINESS_RESPONSE}'
         terminationGracePeriodSeconds: 60
     triggers:
     - imageChangeParams:
@@ -121,7 +120,7 @@ parameters:
 - description: The name for the application.
   name: APPLICATION_NAME
   required: true
-  value: jws-app
+  value: stockmanager-os
 - description: The namespace to deploy into
   name: NAMESPACE
   required: true
@@ -138,8 +137,8 @@ parameters:
 - description: 'URI to check for app health'
   name: READINESS_PATH
   required: true
-  value: '/'
+  value: '/health'
 - description: 'String value expected back from readiness check'
   name: READINESS_RESPONSE
   required: true
-  value: 'Hello World!'
+  value: '{"status":"UP"}'

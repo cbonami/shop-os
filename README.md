@@ -67,12 +67,81 @@ git clone https://github.com/redhat-cop/container-pipelines
 cd container-pipelines/basic-spring-boot
 ```
 
+## Manual Deployment Instructions
 
-## Build & Run
+### 1. Create Lifecycle Stages
 
 ```bash
-oc login https://192.168.99.104:8443 --token=iudz2GAflO9TZEzdd3SYeRDM9hHIUKhzEn6OOUtlbRI
-oc new-project shop
+$ oc login https://ocp-sbx.vdab.be:8443 --token=...
+$ oc create -f stockmanager-os/applier/projects/projects.yml
+```
+
+_Projects_ are isolated kubernetes _Namespaces_.
+
+### 2. Stand up Jenkins master in ldv
+
+The OpenShift *default* template gets jenkins up and running.
+This is the ephemeral setup of jenkins, i.e. no persistent volumes are used.
+
+```
+$ oc login -u system:admin
+$ oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/jenkins-ephemeral-template.json -n openshift
+$ oc project stockmanager-os-ldv # maybe not needed
+$ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-build
+```
+
+### 3. Instantiate Pipeline
+
+#### _Deploy_ template
+
+A _deploy template_ is provided for every microservice:
+
+* `stockmanager-os/applier/templates/deployment.yml` 
+* `productcatalogue-os/applier/templates/deployment.yml`
+* `shopfront-os/applier/templates/deployment.yml`
+
+that defines all of the basic OpenShift resources required to run our Spring Boot apps on Tomcat. 
+The templates will create for each microservice the following:
+
+* A `DeploymentConfig`
+* An `ImageStream`
+* A `Service`
+* A `Route`
+* A `RoleBinding` to allow Jenkins to deploy in each namespace.
+
+```
+$ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-ldv | oc apply -f-
+```
+
+#### _Build_ template
+
+A build template is provided at
+
+* [stockmanager-os/applier/templates/build.yml](stockmanager-os/applier/templates/build.yml) 
+* [productcatalogue-os/applier/templates/build.yml](productcatalogue-os/applier/templates/build.yml)
+* [shopfront-os/applier/templates/build.yml](shopfront-os/applier/templates/build.yml)
+
+that defines all the resources required to _build_ our java app. 
+The template includes:
+
+* A _BuildConfig_ that defines a _JenkinsPipelineStrategy_ build, which will be used to define our pipeline.
+* A _BuildConfig_ that defines a _Source_ build with Binary input. This will build our image.
+
+Deploy the build template in LDV only, as it is there that Jenkins runs.
+
+```
+$ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build-ldv | oc apply -f-
+```
+
+#### Links
+
+* [Jenkins Template Sample](https://github.com/openshift/origin/tree/master/examples/jenkins)
+
+## Deprecated: Build & Run
+
+```bash
+$ oc login https://192.168.99.104:8443 --token=...
+$ oc new-project shop
 ```
 
 We make use of the [codecenric/springboot-maven3-centos S2I image](https://github.com/codecentric/springboot-maven3-centos) to build a docker image containing the spring boot app.

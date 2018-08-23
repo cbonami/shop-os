@@ -15,9 +15,10 @@ node('master') {
 
   env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?pipeline-?/, '').replaceAll(/-?${env.NAMESPACE}-?/, '')
   def projectBase = "${env.NAMESPACE}".replaceAll(/-dev/, '')
-  env.STAGE1 = "${projectBase}-dev"
-  env.STAGE2 = "${projectBase}-stage"
-  env.STAGE3 = "${projectBase}-prod"
+  env.STAGE1 = "${projectBase}-ldv"
+  env.STAGE2 = "${projectBase}-abt"
+  env.STAGE3 = "${projectBase}-cbt"
+  env.STAGE4 = "${projectBase}-prod"
 
 }
 
@@ -67,7 +68,7 @@ node('maven') {
 
     openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE1}", verifyReplicaCount: true)
 
-    input "Promote Application to Stage?"
+    input "Promote Application to ABT?"
   }
 
   stage("Promote To ${env.STAGE2}") {
@@ -80,7 +81,7 @@ node('maven') {
 
     openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE2}", verifyReplicaCount: true)
 
-    input "Promote Application to Prod?"
+    input "Promote Application to CBT?"
   }
 
   stage("Promote To ${env.STAGE3}") {
@@ -94,6 +95,26 @@ node('maven') {
     openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE3}", verifyReplicaCount: true)
 
   }
+
+  stage("Verify Deployment to ${env.STAGE3}") {
+
+    openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE3}", verifyReplicaCount: true)
+
+    input "Promote Application to PROD?"
+  }
+
+  stage("Promote To ${env.STAGE4}") {
+    sh """
+    ${env.OC_CMD} tag ${env.STAGE3}/${env.APP_NAME}:latest ${env.STAGE4}/${env.APP_NAME}:latest
+    """
+  }
+
+  stage("Verify Deployment to ${env.STAGE4}") {
+
+    openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE4}", verifyReplicaCount: true)
+
+  }
+
 }
 
 println "Application ${env.APP_NAME} is now in Production!"

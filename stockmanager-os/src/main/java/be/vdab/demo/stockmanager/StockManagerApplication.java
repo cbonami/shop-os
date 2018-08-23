@@ -1,6 +1,7 @@
 package be.vdab.demo.stockmanager;
 
 import com.google.common.base.Predicate;
+import io.prometheus.client.CollectorRegistry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,11 @@ import static springfox.documentation.builders.PathSelectors.regex;
 @EnablePrometheusMetrics
 @EnableSwagger2
 public class StockManagerApplication {
+
+    static {
+        //HACK Avoids duplicate metrics registration in case of Spring Boot dev-tools restarts
+        CollectorRegistry.defaultRegistry.clear();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(StockManagerApplication.class, args);
@@ -55,7 +61,7 @@ public class StockManagerApplication {
     private Predicate<String> apiPaths() {
         return or(
                 regex("/v1/stocks.*"),
-                regex("/v1/*")
+                regex("/v1/*")::apply
         );
     }
 
