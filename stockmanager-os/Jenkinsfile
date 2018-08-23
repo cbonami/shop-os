@@ -18,7 +18,7 @@ node('master') {
   env.STAGE1 = "${projectBase}-ldv"
   env.STAGE2 = "${projectBase}-abt"
   env.STAGE3 = "${projectBase}-cbt"
-  env.STAGE4 = "${projectBase}-prod"
+  env.STAGE4 = "${projectBase}-prd"
 
 }
 
@@ -100,7 +100,7 @@ node('maven') {
 
     openshiftVerifyDeployment(deploymentConfig: "${env.APP_NAME}", namespace: "${STAGE3}", verifyReplicaCount: true)
 
-    input "Promote Application to PROD?"
+    input "Promote Application to PRD?"
   }
 
   stage("Promote To ${env.STAGE4}") {

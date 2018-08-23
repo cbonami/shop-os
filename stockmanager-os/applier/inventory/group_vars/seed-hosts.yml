@@ -15,9 +15,9 @@ openshift_cluster_content:
   - name: "deploy cbt environment"
     template: "{{ inventory_dir }}/../templates/deployment.yml"
     params: "{{ inventory_dir }}/../params/deployment-cbt"
-  - name: "deploy prod environment"
+  - name: "deploy prd environment"
     template: "{{ inventory_dir }}/../templates/deployment.yml"
-    params: "{{ inventory_dir }}/../params/deployment-prod"
+    params: "{{ inventory_dir }}/../params/deployment-prd"
 - object: builds
   content:
   - name: "deploy build pipeline to dev"
