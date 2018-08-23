@@ -111,7 +111,7 @@ The templates will create for each microservice the following:
 * A `Route`
 * A `RoleBinding` to allow Jenkins to deploy in each namespace.
 
-We need the resources in all 'environments' (ldv, abt, etc):
+We need the resources in all 'environments' (the projects dedicated to ldv, abt, etc):
 
 ```
 $ oc login -u developer
