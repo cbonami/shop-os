@@ -120,7 +120,7 @@ parameters:
 - description: The name for the application.
   name: APPLICATION_NAME
   required: true
-  value: stockmanager-os
+  value: missing
 - description: The namespace to deploy into
   name: NAMESPACE
   required: true

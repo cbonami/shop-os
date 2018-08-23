@@ -86,6 +86,7 @@ This is the ephemeral setup of jenkins, i.e. no persistent volumes are used.
 ```
 $ oc login -u system:admin
 $ oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/jenkins-ephemeral-template.json -n openshift
+$ oc login -u developer
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-build
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n productcatalogue-os-build
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n shopfront-os-build
@@ -110,9 +111,14 @@ The templates will create for each microservice the following:
 * A `Route`
 * A `RoleBinding` to allow Jenkins to deploy in each namespace.
 
+We need the resources in all 'environments' (ldv, abt, etc):
+
 ```
 $ oc login -u developer
 $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-ldv | oc apply -f-
+$ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-abt | oc apply -f-
+$ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-cbt | oc apply -f-
+$ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-prd | oc apply -f-
 ```
 
 #### _Build_ template
@@ -132,14 +138,14 @@ The template includes:
 Deploy the build template in LDV only, as it is there that Jenkins runs.
 
 ```
-$ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build-ldv | oc apply -f-
+$ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build | oc apply -f-
 ```
 
 On Minishift I also had to create the builderimage's imagestream in the _openshift_ namespace:
 
 ```
 $ oc login -u system:admin
-$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json
+$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json -n openshift
 ```
 
 #### Links

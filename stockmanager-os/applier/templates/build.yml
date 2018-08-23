@@ -89,7 +89,7 @@ parameters:
   value: https://github.com/cbonami/shop-os.git
 - description: Path within Git project pointing to the pipeline run script
   name: PIPELINE_SCRIPT
-  value: stockmanager-os/Jenkinsfile
+  value: Jenkinsfile
 - description: GitHub trigger secret
   from: '[a-zA-Z0-9]{8}'
   generate: expression
