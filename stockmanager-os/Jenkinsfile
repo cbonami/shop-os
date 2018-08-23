@@ -14,7 +14,7 @@ node('master') {
   env.OC_CMD = "oc --token=${env.TOKEN} --server=${ocpApiServer} --certificate-authority=/run/secrets/kubernetes.io/serviceaccount/ca.crt --namespace=${env.NAMESPACE}"
 
   env.APP_NAME = "${env.JOB_NAME}".replaceAll(/-?pipeline-?/, '').replaceAll(/-?${env.NAMESPACE}-?/, '')
-  def projectBase = "${env.NAMESPACE}".replaceAll(/-dev/, '')
+  def projectBase = "${env.NAMESPACE}".replaceAll(/-ldv/, '')
   env.STAGE1 = "${projectBase}-ldv"
   env.STAGE2 = "${projectBase}-abt"
   env.STAGE3 = "${projectBase}-cbt"
