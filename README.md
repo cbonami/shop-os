@@ -96,9 +96,9 @@ $ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-buil
 
 A _deploy template_ is provided for every microservice:
 
-* `stockmanager-os/applier/templates/deployment.yml` 
-* `productcatalogue-os/applier/templates/deployment.yml`
-* `shopfront-os/applier/templates/deployment.yml`
+* [stockmanager-os/applier/templates/deployment.yml](stockmanager-os/applier/templates/deployment.yml) 
+* [productcatalogue-os/applier/templates/deployment.yml](productcatalogue-os/applier/templates/deployment.yml) 
+* [shopfront-os/applier/templates/deployment.yml](shopfront-os/applier/templates/deployment.yml) 
 
 that defines all of the basic OpenShift resources required to run our Spring Boot apps on Tomcat. 
 The templates will create for each microservice the following:
