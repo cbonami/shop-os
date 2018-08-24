@@ -1,6 +1,9 @@
 // https://jenkins.io/doc/pipeline/steps/openshift-pipeline/
 // https://github.com/openshift/jenkins-client-plugin
 
+
+// https://github.com/infinityworks/sample-jenkins-pipeline-job/blob/master/Jenkinsfile
+
 openshift.withCluster() {
   env.NAMESPACE = openshift.project()
   env.POM_FILE = env.BUILD_CONTEXT_DIR ? "${env.BUILD_CONTEXT_DIR}/pom.xml" : "pom.xml"
@@ -18,7 +21,7 @@ pipeline {
   // Use Jenkins Maven slave
   // Jenkins will dynamically provision this as OpenShift Pod
   // All the stages and steps of this Pipeline will be executed on this Pod
-  // After Pipeline completes the Pod is killed so every run will have clean
+  // After Pipeline completes, the Pod is killed so every run will have clean
   // workspace
   agent {
     label 'maven'
@@ -112,10 +115,10 @@ pipeline {
           openshift.withCluster() {
 
             // Might want Jenkins to ask devops team before we do this
-            mail (
-                to: 'christian.bonami@vdab.be',
-                subject: "Microservice '${APP_NAME}' (${env.BUILD_NUMBER}) is awaiting promotion to ${env.STAGE2}",
-                body: "Please go to ${env.BUILD_URL}.");
+            // mail (
+            //     to: 'christian.bonami@vdab.be',
+            //     subject: "Microservice '${APP_NAME}' (${env.BUILD_NUMBER}) is awaiting promotion to ${env.STAGE2}",
+            //     body: "Please go to ${env.BUILD_URL}.");
             input "Ready to promote ${APP_NAME} from ${env.STAGE1} to ${env.STAGE2}?"
 
             openshift.tag("${env.STAGE1}/${env.APP_NAME}:latest", "${env.STAGE2}/${env.APP_NAME}:latest")
@@ -195,4 +198,22 @@ pipeline {
     }
 
   }
+  post {
+        always {
+            // archiveArtifacts artifacts: '${env.APP_NAME}/target/*.jar', fingerprint: true
+            junit '${env.APP_NAME}/target/surefire-reports/*.xml'
+            echo 'Pipeline finished'
+        }
+        failure {
+            //hipchatSend message: "Attention @here ${env.JOB_NAME} #${env.BUILD_NUMBER} has failed.", color: 'RED'
+        }
+        unstable {
+            echo 'Flakey pipeline'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+  }
+
 }

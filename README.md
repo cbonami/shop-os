@@ -37,6 +37,8 @@ oc login -u admin
 
 * Ansible
 
+> WIP
+
 > Optional - only needed when you want to set up the whole CD/CI pipeline full-automatically with OpenShift Applier (=RedHat's Ansible templates for OCP)
 
 I tried running the ansible client in Windows subsystem for Linux, but ran into weird problems.
