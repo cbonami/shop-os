@@ -18,11 +18,10 @@ openshift.withCluster() {
 }
 
 pipeline {
-  // Use Jenkins Maven slave
-  // Jenkins will dynamically provision this as OpenShift Pod
-  // All the stages and steps of this Pipeline will be executed on this Pod
-  // After Pipeline completes, the Pod is killed so every run will have clean
-  // workspace
+  // Use Jenkins Maven slave;
+  // Jenkins will dynamically provision this as OpenShift Pod;
+  // All the stages and steps of this Pipeline will be executed on this Pod;
+  // After Pipeline completes, the Pod is killed so every run will have clean workspace
   agent {
     label 'maven'
   }
@@ -53,6 +52,10 @@ pipeline {
     stage('Unit Test'){
       steps {
         sh "mvn test -f ${POM_FILE}"
+
+        // archiveArtifacts artifacts: '${env.APP_NAME}/target/*.jar', fingerprint: true
+        // junit '${env.APP_NAME}/target/surefire-reports/*.xml'
+
       }
     }
 
@@ -120,7 +123,6 @@ pipeline {
             //     subject: "Microservice '${APP_NAME}' (${env.BUILD_NUMBER}) is awaiting promotion to ${env.STAGE2}",
             //     body: "Please go to ${env.BUILD_URL}.");
             input "Ready to promote ${APP_NAME} from ${env.STAGE1} to ${env.STAGE2}?"
-
             openshift.tag("${env.STAGE1}/${env.APP_NAME}:latest", "${env.STAGE2}/${env.APP_NAME}:latest")
           }
         }
@@ -147,6 +149,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
+            input "Ready to promote ${APP_NAME} from ${env.STAGE2} to ${env.STAGE3}?"
             openshift.tag("${env.STAGE2}/${env.APP_NAME}:latest", "${env.STAGE3}/${env.APP_NAME}:latest")
           }
         }
@@ -174,6 +177,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster() {
+            input "Ready to promote ${APP_NAME} from ${env.STAGE3} to ${env.STAGE4}?"
             openshift.tag("${env.STAGE3}/${env.APP_NAME}:latest", "${env.STAGE4}/${env.APP_NAME}:latest")
           }
         }
@@ -200,8 +204,6 @@ pipeline {
   }
   post {
         always {
-            // archiveArtifacts artifacts: '${env.APP_NAME}/target/*.jar', fingerprint: true
-            junit '${env.APP_NAME}/target/surefire-reports/*.xml'
             echo 'Pipeline finished'
         }
         failure {
@@ -209,7 +211,7 @@ pipeline {
             echo 'Failure'
         }
         unstable {
-            echo 'Flakey pipeline'
+            echo 'Unstable pipeline'
         }
         changed {
             echo 'This will run only if the state of the Pipeline has changed'
