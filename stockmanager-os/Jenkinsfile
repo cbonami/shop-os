@@ -206,6 +206,7 @@ pipeline {
         }
         failure {
             //hipchatSend message: "Attention @here ${env.JOB_NAME} #${env.BUILD_NUMBER} has failed.", color: 'RED'
+            echo 'Failure'
         }
         unstable {
             echo 'Flakey pipeline'
