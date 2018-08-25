@@ -1,4 +1,4 @@
-package uk.co.danielbryant.djshopping.shopfront;
+package be.vdab.demo.shopfront;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

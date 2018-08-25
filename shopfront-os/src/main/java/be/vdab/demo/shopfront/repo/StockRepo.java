@@ -1,6 +1,6 @@
-package uk.co.danielbryant.djshopping.shopfront.repo;
+package be.vdab.demo.shopfront.repo;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import be.vdab.demo.shopfront.services.dto.StockDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import uk.co.danielbryant.djshopping.shopfront.services.dto.StockDTO;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +30,7 @@ public class StockRepo {
     @Qualifier(value = "stdRestTemplate")
     private RestTemplate restTemplate;
 
-    @HystrixCommand(fallbackMethod = "stocksNotFound") // Hystrix circuit breaker for fault-tolernace demo
+    //    @HystrixCommand(fallbackMethod = "stocksNotFound") // Hystrix circuit breaker for fault-tolernace demo
     public Map<String, StockDTO> getStockDTOs() {
         LOGGER.info("getStocksDTOs");
         ResponseEntity<List<StockDTO>> stockManagerResponse =

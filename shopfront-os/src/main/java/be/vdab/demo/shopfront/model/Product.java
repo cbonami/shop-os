@@ -1,4 +1,4 @@
-package uk.co.danielbryant.djshopping.shopfront.model;
+package be.vdab.demo.shopfront.model;
 
 import java.math.BigDecimal;
 

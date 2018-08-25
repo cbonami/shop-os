@@ -1,10 +1,10 @@
-package uk.co.danielbryant.djshopping.shopfront.resources;
+package be.vdab.demo.shopfront.resources;
 
+import be.vdab.demo.shopfront.model.Product;
+import be.vdab.demo.shopfront.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uk.co.danielbryant.djshopping.shopfront.model.Product;
-import uk.co.danielbryant.djshopping.shopfront.services.ProductService;
 
 import java.util.List;
 

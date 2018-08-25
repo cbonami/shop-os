@@ -1,0 +1,5 @@
+APPLICATION_NAME=shopfront-os
+NAMESPACE=shopfront-os-build
+SOURCE_REPOSITORY_URL=https://github.com/cbonami/shop-os.git
+SOURCE_REPOSITORY_REF=master
+BUILD_CONTEXT_DIR=shopfront-os

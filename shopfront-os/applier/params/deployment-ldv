@@ -1,0 +1,5 @@
+APPLICATION_NAME=stockmanager-os
+NAMESPACE=stockmanager-os-ldv
+SA_NAMESPACE=stockmanager-os-build
+READINESS_RESPONSE=status.:.UP
+READINESS_PATH=/health

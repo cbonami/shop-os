@@ -12,7 +12,7 @@
     <description>Shop Microservice on OpenShift; parent-POM</description>
 
     <modules>
-        <!--<module>shopfront-os</module>-->
+        <module>shopfront-os</module>
         <module>productcatalogue-os</module>
         <module>stockmanager-os</module>
     </modules>

@@ -103,7 +103,7 @@ This also creates a Service Account 'jenkins' that will need to get access to th
 
 ### 3. Instantiate Pipeline
 
-#### _Deploy_ template
+#### Deploy-template
 
 A _deploy template_ is provided for every microservice:
 
@@ -134,7 +134,7 @@ $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-fil
 $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-prd | oc apply -f-
 ```
 
-#### _Build_ template
+#### Build-template
 
 > Note: On Minishift I had to first create the S2I builderimage's imagestream in the _openshift_ namespace:
 >```
@@ -150,7 +150,7 @@ A _build template_ is provided at
 * [shopfront-os/applier/templates/build.yml](shopfront-os/applier/templates/build.yml)
 
 that defines all the resources required to _build_ our java app. 
-The template includes:
+The template includes all resources for an [OpenShift Pipeline Build](https://docs.openshift.com/container-platform/3.9/dev_guide/dev_tutorials/openshift_pipeline.html):
 
 * A `BuildConfig` that defines a `JenkinsPipelineStrategy` build, which will be used to define our pipeline.
 * A `BuildConfig` that defines a `Source` build with `Binary` input (the jar that will be built). This will build our image.

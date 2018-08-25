@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: List
+items:
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: shopfront-os-build
+    creationTimestam: null
+  displayName: ShopFront - Build
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: shopfront-os-ldv
+    creationTimestam: null
+  displayName: ShopFront - LDV
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: shopfront-os-abt
+    creationTimestam: null
+  displayName: ShopFront - ABT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: shopfront-os-cbt
+    creationTimestam: null
+  displayName: ShopFront - CBT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: shopfront-os-prd
+    creationTimestam: null
+  displayName: ShopFront - PRD
