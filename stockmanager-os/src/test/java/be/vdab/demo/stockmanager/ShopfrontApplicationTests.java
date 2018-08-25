@@ -29,8 +29,6 @@ public class ShopfrontApplicationTests {
     public static void setup() {
         CollectorRegistry.defaultRegistry.clear();
     }
-
-    // fixes https://github.com/prometheus/client_java/issues/279
     @After
     public void tearDown() {
         CollectorRegistry.defaultRegistry.clear();

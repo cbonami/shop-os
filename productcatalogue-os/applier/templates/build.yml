@@ -82,7 +82,7 @@ parameters:
   value: "master"
 - description: Path within Git project to build; empty for root project directory.
   name: CONTEXT_DIR
-  value: stockmanager-os
+  value: productcatalogue-os
 - description: Source code repo for demo app
   name: APPLICATION_SOURCE_REPO
   required: true

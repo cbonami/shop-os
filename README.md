@@ -35,9 +35,9 @@ Note: use password 'admin' when logging in as admin:
 oc login -u admin
 ```
 
-* Ansible
+* Install [Ansible]() in an Ubuntu box
 
-> WIP
+> WIP !!
 
 > Optional - only needed when you want to set up the whole CD/CI pipeline full-automatically with OpenShift Applier (=RedHat's Ansible templates for OCP)
 
@@ -76,6 +76,7 @@ cd container-pipelines/basic-spring-boot
 ```bash
 $ oc login -u developer
 $ oc create -f stockmanager-os/applier/projects/projects.yml
+$ oc create -f productcatalogue-os/applier/projects/projects.yml
 ```
 
 _Projects_ are isolated kubernetes _Namespaces_.
@@ -93,6 +94,8 @@ $ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-buil
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n productcatalogue-os-build
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n shopfront-os-build
 ```
+
+This also creates a Service Account 'jenkins' that will need to get access to the various microservices in all namespaces (ldv, abt, etc).
 
 ### 3. Instantiate Pipeline
 
@@ -121,6 +124,10 @@ $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=st
 $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-abt | oc apply -f-
 $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-cbt | oc apply -f-
 $ oc process -f stockmanager-os/applier/templates/deployment.yml --param-file=stockmanager-os/applier/params/deployment-prd | oc apply -f-
+$ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-ldv | oc apply -f-
+$ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-abt | oc apply -f-
+$ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-cbt | oc apply -f-
+$ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-prd | oc apply -f-
 ```
 
 #### _Build_ template
@@ -137,10 +144,11 @@ The template includes:
 * A `BuildConfig` that defines a `JenkinsPipelineStrategy` build, which will be used to define our pipeline.
 * A `BuildConfig` that defines a `Source` build with `Binary` input (the jar that will be built). This will build our image.
 
-Deploy the build template in LDV only, as it is there that Jenkins runs.
+Deploy the build template in BUILD, as it is there that Jenkins runs.
 
 ```
 $ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build | oc apply -f-
+$ oc process -f productcatalogue-os/applier/templates/build.yml --param-file productcatalogue-os/applier/params/build | oc apply -f-
 ```
 
 On Minishift I also had to create the builderimage's imagestream in the _openshift_ namespace:
