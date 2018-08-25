@@ -157,3 +157,7 @@ On Minishift I also had to create the builderimage's imagestream in the _openshi
 $ oc login -u system:admin
 $ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json -n openshift
 ```
+
+## Links
+
+* [Cucumber on OpenShift](https://eleanordare.com/blog/2017/6/15/running-cucumber-tests-in-openshift-from-a-jenkins-pipeline)
