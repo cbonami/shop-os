@@ -2,10 +2,12 @@ package be.vdab.demo.productcatalogue.services;
 
 import be.vdab.demo.productcatalogue.exceptions.ProductNotFoundException;
 import be.vdab.demo.productcatalogue.model.Product;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Service
 public class ProductService {
 
     //{productId, Product}
