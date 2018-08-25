@@ -13,7 +13,7 @@
 
     <modules>
         <!--<module>shopfront-os</module>-->
-        <!--<module>productcatalogue-os</module>-->
+        <module>productcatalogue-os</module>
         <module>stockmanager-os</module>
     </modules>
 

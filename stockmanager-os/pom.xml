@@ -16,8 +16,8 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot.bom.version>1.5.8.Final-redhat-1</spring-boot.bom.version>
-        <springboot.version>1.5.8.RELEASE</springboot.version>
+        <spring-boot.bom.version>1.5.14.Final-redhat-1</spring-boot.bom.version>
+        <springboot.version>1.5.14.RELEASE</springboot.version>
         <springboot.metrics.version>0.5.1.RELEASE</springboot.metrics.version>
         <prometheus.client.version>0.1.0</prometheus.client.version>
         <springfox-version>2.8.0</springfox-version>
@@ -44,7 +44,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 
     <dependencies>
         <dependency>
@@ -103,6 +102,8 @@
             <artifactId>cucumber-spring</artifactId>
             <version>${cucumber.version}</version>
         </dependency>
+
+        <!-- migrating spring metrics ? https://blog.frankel.ch/metrics-spring-boot-2/1/ -->
         <dependency>
             <groupId>org.springframework.metrics</groupId>
             <artifactId>spring-metrics</artifactId>
@@ -117,6 +118,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
         <!--SpringFox dependencies -->
         <dependency>
             <groupId>io.springfox</groupId>

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: List
+items:
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: productcatalogue-os-build
+    creationTimestam: null
+  displayName: ProductCatalogue - Build
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: productcatalogue-os-ldv
+    creationTimestam: null
+  displayName: ProductCatalogue - LDV
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: productcatalogue-os-abt
+    creationTimestam: null
+  displayName: ProductCatalogue - ABT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: productcatalogue-os-cbt
+    creationTimestam: null
+  displayName: ProductCatalogue - CBT
+- kind: ProjectRequest
+  apiVersion: v1
+  metadata:
+    name: productcatalogue-os-prd
+    creationTimestam: null
+  displayName: ProductCatalogue - PRD

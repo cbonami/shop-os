@@ -1,6 +1,7 @@
-package uk.co.danielbryant.djshopping.productcatalogue.services;
+package be.vdab.demo.productcatalogue.services;
 
-import uk.co.danielbryant.djshopping.productcatalogue.model.Product;
+import be.vdab.demo.productcatalogue.exceptions.ProductNotFoundException;
+import be.vdab.demo.productcatalogue.model.Product;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -22,7 +23,9 @@ public class ProductService {
         return new ArrayList<>(fakeProductDAO.values());
     }
 
-    public Optional<Product> getProduct(String id) {
-        return Optional.ofNullable(fakeProductDAO.get(id));
+    public Product getProduct(String id) throws ProductNotFoundException {
+        return Optional.ofNullable(fakeProductDAO.get(id))
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with productId: " + id));
     }
+
 }
