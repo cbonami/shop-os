@@ -83,12 +83,16 @@ _Projects_ are isolated kubernetes _Namespaces_.
 
 ### 2. Stand up Jenkins master in build-namespace
 
-The OpenShift *default* template gets jenkins up and running in the 'build' namespace.
-This is the ephemeral setup of jenkins, i.e. no persistent volumes are used.
+> Note: on Minishift I first had to install the _Jenkins (Ephemeral)_ template: 
+>```
+>$ oc login -u system:admin
+>$ oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/jenkins-ephemeral-template.json -n openshift
+>```
+
+The OpenShift _Jenkins (Ephemeral)_ template gets jenkins up and running in the _xxx-build_ namespace.
+As this is the ephemeral setup of jenkins, no persistent volumes are used.
 
 ```
-$ oc login -u system:admin
-$ oc create -f https://raw.githubusercontent.com/openshift/origin/master/examples/jenkins/jenkins-ephemeral-template.json -n openshift
 $ oc login -u developer
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n stockmanager-os-build
 $ oc process openshift//jenkins-ephemeral | oc apply -f- -n productcatalogue-os-build
@@ -132,6 +136,13 @@ $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-fil
 
 #### _Build_ template
 
+> Note: On Minishift I had to first create the S2I builderimage's imagestream in the _openshift_ namespace:
+>```
+>$ oc login -u system:admin
+>$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json -n openshift
+>```
+
+
 A _build template_ is provided at
 
 * [stockmanager-os/applier/templates/build.yml](stockmanager-os/applier/templates/build.yml) 
@@ -144,20 +155,14 @@ The template includes:
 * A `BuildConfig` that defines a `JenkinsPipelineStrategy` build, which will be used to define our pipeline.
 * A `BuildConfig` that defines a `Source` build with `Binary` input (the jar that will be built). This will build our image.
 
-Deploy the build template in BUILD, as it is there that Jenkins runs.
+Deploy the build template in _xxx-build_ namespace, as it is there that Jenkins runs.
 
 ```
 $ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build | oc apply -f-
 $ oc process -f productcatalogue-os/applier/templates/build.yml --param-file productcatalogue-os/applier/params/build | oc apply -f-
 ```
 
-On Minishift I also had to create the builderimage's imagestream in the _openshift_ namespace:
-
-```
-$ oc login -u system:admin
-$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json -n openshift
-```
-
 ## Links
 
+* [Getting started with Java S2I image](https://developers.redhat.com/blog/2017/02/23/getting-started-with-openshift-java-s2i/)
 * [Cucumber on OpenShift](https://eleanordare.com/blog/2017/6/15/running-cucumber-tests-in-openshift-from-a-jenkins-pipeline)
