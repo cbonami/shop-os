@@ -43,6 +43,8 @@ objects:
         env:
         - name: "APPLICATION_SOURCE_REPO"
           value: "${APPLICATION_SOURCE_REPO}"
+        - name: "BUILD_CONTEXT_DIR"
+          value: "${CONTEXT_DIR}"
 - apiVersion: v1
   kind: BuildConfig
   metadata:
