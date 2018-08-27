@@ -1,5 +1,5 @@
-APPLICATION_NAME=stockmanager-os
-NAMESPACE=stockmanager-os-prd
-SA_NAMESPACE=stockmanager-os-build
+APPLICATION_NAME=shopfront-os
+NAMESPACE=shopfront-os-prd
+SA_NAMESPACE=shopfront-os-build
 READINESS_RESPONSE=status.:.UP
 READINESS_PATH=/health
