@@ -2,4 +2,4 @@ APPLICATION_NAME=stockmanager-os
 NAMESPACE=stockmanager-os-build
 SOURCE_REPOSITORY_URL=https://github.com/cbonami/shop-os.git
 SOURCE_REPOSITORY_REF=master
-BUILD_CONTEXT_DIR=stockmanager-os
+CONTEXT_DIR=stockmanager-os
