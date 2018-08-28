@@ -7,12 +7,9 @@ server:
 
 zuul:
   routes:
-    airports:
+    productcatalogue:
       path: /productcatalogue/**
       url: http://productcatalogue:8080/
-    flights:
+    stockmanager:
       path: /stockmanager/**
       url: http://stockmanager:8080/
-    sales:
-      path: /shopfront/**
-      url: http://shopfront:8080/
