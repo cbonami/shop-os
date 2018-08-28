@@ -68,6 +68,10 @@ $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-fil
 $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-abt | oc apply -f-
 $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-cbt | oc apply -f-
 $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-file=productcatalogue-os/applier/params/deployment-prd | oc apply -f-
+$ oc process -f shopfront-os/applier/templates/deployment.yml --param-file=shopfront-os/applier/params/deployment-ldv | oc apply -f-
+$ oc process -f shopfront-os/applier/templates/deployment.yml --param-file=shopfront-os/applier/params/deployment-abt | oc apply -f-
+$ oc process -f shopfront-os/applier/templates/deployment.yml --param-file=shopfront-os/applier/params/deployment-cbt | oc apply -f-
+$ oc process -f shopfront-os/applier/templates/deployment.yml --param-file=shopfront-os/applier/params/deployment-prd | oc apply -f-
 ```
 
 #### Build-template
@@ -75,7 +79,7 @@ $ oc process -f productcatalogue-os/applier/templates/deployment.yml --param-fil
 > Note: On Minishift I had to first create the S2I builderimage's imagestream in the _openshift_ namespace:
 >```
 >$ oc login -u system:admin
->$ oc create -f stockmanager-os\applier\templates\redhat-openjdk18-openshift.json -n openshift
+>$ oc create -f https://raw.githubusercontent.com/jboss-openshift/application-templates/master/openjdk/openjdk18-image-stream.json -n openshift
 >```
 
 
@@ -96,9 +100,12 @@ Deploy the build template in _xxx-build_ namespace, as it is there that Jenkins 
 ```
 $ oc process -f stockmanager-os/applier/templates/build.yml --param-file stockmanager-os/applier/params/build | oc apply -f-
 $ oc process -f productcatalogue-os/applier/templates/build.yml --param-file productcatalogue-os/applier/params/build | oc apply -f-
+$ oc process -f shopfront-os/applier/templates/build.yml --param-file shopfront-os/applier/params/build | oc apply -f-
 ```
 
 ## Links
 
+* [RedHat Spring Boot Reference Architecture - code](https://github.com/RHsyseng/spring-boot-msa-ocp)
 * [Getting started with Java S2I image](https://developers.redhat.com/blog/2017/02/23/getting-started-with-openshift-java-s2i/)
 * [Cucumber on OpenShift](https://eleanordare.com/blog/2017/6/15/running-cucumber-tests-in-openshift-from-a-jenkins-pipeline)
+* [RedHat Helloworld MSA](https://github.com/redhat-helloworld-msa)

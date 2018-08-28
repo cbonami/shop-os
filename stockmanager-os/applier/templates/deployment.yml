@@ -8,7 +8,7 @@ metadata:
     iconClass: icon-tomcat
     tags: java,spring
     version: 1.2.0
-  name: basic-sprint-boot
+  name: basic-spring-boot
 objects:
 - apiVersion: v1
   kind: Service

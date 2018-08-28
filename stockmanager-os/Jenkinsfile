@@ -1,8 +1,5 @@
-// https://jenkins.io/doc/pipeline/steps/openshift-pipeline/
-// https://github.com/openshift/jenkins-client-plugin
-
-
-// https://github.com/infinityworks/sample-jenkins-pipeline-job/blob/master/Jenkinsfile
+// OpenShift Pipeline DSL -- https://jenkins.io/doc/pipeline/steps/openshift-pipeline/
+// OpenShift Jenkins Plugin -- https://github.com/openshift/jenkins-client-plugin
 
 openshift.withCluster() {
   env.NAMESPACE = openshift.project()
@@ -52,10 +49,6 @@ pipeline {
     stage('Unit Test'){
       steps {
         sh "mvn test -f ${POM_FILE}"
-
-        // archiveArtifacts artifacts: '${env.APP_NAME}/target/*.jar', fingerprint: true
-        // junit '${env.APP_NAME}/target/surefire-reports/*.xml'
-
       }
     }
 
@@ -205,6 +198,21 @@ pipeline {
   post {
         always {
             echo 'Pipeline finished'
+            // archiveArtifacts artifacts: '${env.APP_NAME}/target/*.jar', fingerprint: true
+            // junit '${env.APP_NAME}/target/surefire-reports/*.xml'
+            dir ("${BUILD_CONTEXT_DIR}"){
+               script {
+                 archive (includes: 'build/reports/cucumber/*')
+                 publishHTML (target: [
+                   allowMissing: false,
+                   alwaysLinkToLastBuild: false,
+                   keepAll: true,
+                   reportDir: 'cucumber/report',
+                   reportFiles: 'index.html',
+                   reportName: "Cucumber Report"
+                 ])
+               }
+            }
         }
         failure {
             //hipchatSend message: "Attention @here ${env.JOB_NAME} #${env.BUILD_NUMBER} has failed.", color: 'RED'
