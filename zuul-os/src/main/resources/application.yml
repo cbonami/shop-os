@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: zuul
+
+server:
+  port: 8080
+
+zuul:
+  routes:
+    airports:
+      path: /productcatalogue/**
+      url: http://productcatalogue:8080/
+    flights:
+      path: /stockmanager/**
+      url: http://stockmanager:8080/
+    sales:
+      path: /shopfront/**
+      url: http://shopfront:8080/
